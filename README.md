@@ -30,4 +30,4 @@ Progressive Difficulty: The application gradually increases the complexity of ex
 Motivational Messages: Randomly displaying motivational messages on the dashboard adds a personal touch to the application, helping users stay motivated and engaged.
 
 Conclusion:
-The CS50 Final Project - Diary and Class Management System is a valuable tool for educators to manage student records and grades effectively. The project's structure, files, and design choices have been carefully considered to provide a user-friendly and motivating experience. I hope this application helps teachers streamline their classroom management tasks while inspiring students to excel.
+The CS50 Final Project - Diary and Class Management System is a valuable tool for educators to manage student records and grades effectively. The project's structure, files, and design choices have been carefully considered to provide a user-friendly and motivating experience.
