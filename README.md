@@ -24,10 +24,10 @@ Files and Their Functions:
 
 Design Choices:
 
-Database Structure: The database design includes tables for user accounts, student records, and multiple units for grade tracking (notas, notas2, notas3). This structure allows for flexibility in managing student data and grades across different units.
-Flask: Flask was chosen as the web framework due to its simplicity and flexibility. It provides easy routing, session management, and integration with HTML templates.
-Progressive Difficulty: The application gradually increases the complexity of exercises by starting with basic functionality and progressively introducing advanced features. This approach aims to provide a positive learning experience and reduce potential frustration among users.
-Motivational Messages: Randomly displaying motivational messages on the dashboard adds a personal touch to the application, helping users stay motivated and engaged.
+- Database Structure: The database design includes tables for user accounts, student records, and multiple units for grade tracking (notas, notas2, notas3). This structure allows for flexibility in managing student data and grades across different units.
+- Flask: Flask was chosen as the web framework due to its simplicity and flexibility. It provides easy routing, session management, and integration with HTML templates.
+- Progressive Difficulty: The application gradually increases the complexity of exercises by starting with basic functionality and progressively introducing advanced features. This approach aims to provide a positive learning experience and reduce potential frustration among users.
+- Motivational Messages: Randomly displaying motivational messages on the dashboard adds a personal touch to the application, helping users stay motivated and engaged.
 
 Conclusion:
 The CS50 Final Project - Diary and Class Management System is a valuable tool for educators to manage student records and grades effectively. The project's structure, files, and design choices have been carefully considered to provide a user-friendly and motivating experience.
