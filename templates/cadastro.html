@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diário de Classe - Cadastro</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <a href="{{ url_for('login') }}">INÍCIO</a>
+    </header>
+
+    <h1>Cadastro</h1>
+    <div class="container">
+        <form method="POST" action="{{ url_for('cadastro') }}">
+
+            {% if success_flash %}
+                <div class="flash-messages">
+                    <div class="flash-message">{{ success_flash }}</div>
+                    <a href="{{ redirect_url }}"><button class="login-button">Faça login</button></a>
+                </div>
+            {% endif %}
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirm_password">Confirmação de Senha:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <input type="submit" value="Cadastrar" class="register-button">
+
+            <div class="container-senha">
+                <div>
+                    <h3>A senha deve conter:</h3>
+                    <ul>
+                        <li>Pelo menos oito caracteres</li>
+                        <li>Pelo menos uma letra maiúscula</li>
+                        <li>Pelo menos uma letra minúscula</li>
+                        <li>Pelo menos um número</li>
+                        <li>Pelo menos um símbolo</li>
+                    </ul>
+                </div>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Classe - Média Final</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='media-style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>MÉDIA FINAL</h1>
+    </header>
+
+    <nav class="menu">
+        <a href="{{ url_for('adicionar_notas') }}">Início</a>
+        <a href="{{ url_for('cadastrar_aluno') }}">Cadastrar Aluno</a>
+        <a href="{{ url_for('adicionar_notas') }}">Notas do Aluno</a>
+    </nav>
+
+    <table class="media-table">
+        <thead>
+            <tr>
+                <th>Aluno</th>
+                <th>Português</th>
+                <th>Matemática</th>
+                <th>História</th>
+                <th>Geografia</th>
+                <th>Ciências</th>
+                <th>Situação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in media_rows %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td class="{% if row[2] >= 5 %}aprovado{% else %}reprovado{% endif %}">{{ row[2] }}</td>
+                    <td class="{% if row[3] >= 5 %}aprovado{% else %}reprovado{% endif %}">{{ row[3] }}</td>
+                    <td class="{% if row[4] >= 5 %}aprovado{% else %}reprovado{% endif %}">{{ row[4] }}</td>
+                    <td class="{% if row[5] >= 5 %}aprovado{% else %}reprovado{% endif %}">{{ row[5] }}</td>
+                    <td class="{% if row[6] >= 5 %}aprovado{% else %}reprovado{% endif %}">{{ row[6] }}</td>
+                    <td class="{% if row[2] is none %}em-andamento{% elif row[2] >= 5 and row[3] >= 5 and row[4] >= 5 and row[5] >= 5 and row[6] >= 5 %}aprovado{% else %}reprovado{% endif %}">
+
+                        {% if row[2] == 0 or row[3] == 0 or row[4] == 0 or row[5] == 0 or row[6] == 0 %}
+                        <span style="color: #007bff;; font-weight: bold;">MÉDIA FINAL EM ANDAMENTO</span>
+                        {% elif row[2] >= 5 and row[3] >= 5 and row[4] >= 5 and row[5] >= 5 and row[6] >= 5 %}
+                            APROVADO
+                        {% else %}
+                            REPROVADO
+                        {% endif %}
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

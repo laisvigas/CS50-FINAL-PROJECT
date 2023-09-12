@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Diário de Classe - Cadastrar Aluno</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Cadastrar Alunos</h1>
+    </header>
+
+    <nav class="menu">
+        <a href="{{ url_for('pagina_inicial') }}">Início</a>
+        <a href="{{ url_for('cadastrar_aluno') }}">Cadastrar Aluno</a>
+        <a href="{{ url_for('adicionar_notas') }}">Notas do Aluno</a>
+    </nav>
+
+    <div class="container form-container">
+        <form method="POST" action="{{ url_for('cadastrar_aluno') }}" autocomplete="off">
+            <!-- Campos para adicionar um novo aluno -->
+            <label for="nome_aluno">Nome do Aluno:</label>
+            <input type="text" id="nome_aluno" name="nome_aluno" required>
+
+            <label for="genero">Gênero:</label>
+            <select id="genero" name="genero">
+                <option value="F">Feminino</option>
+                <option value="M">Masculino</option>
+                <option value="Outro">Outro</option>
+            </select>
+
+            <input type="submit" value="Adicionar Aluno">
+        </form>
+
+        <!-- Mensagem para mostrar o número de alunos cadastrados -->
+        <p class="message">Total de alunos cadastrados: {{ alunos|length }}</p>
+
+        <!-- Lista de alunos cadastrados -->
+        <div class="student-list">
+            <h2>Alunos Cadastrados:</h2>
+            <table>
+                <tr>
+                    <th>Nome do Aluno</th>
+                    <th>Gênero</th>
+                    <th>Ações</th>
+                </tr>
+                {% for aluno in alunos %}
+                <tr>
+                    <td>{{ aluno[1] }}</td>
+                    <td>{{ aluno[2] }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('excluir_aluno', aluno_id=aluno[0]) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este aluno?');">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-message flash-fadeout">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,489 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container-senha {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #e1ff006e;
+    border-radius: 8px;
+    color: #0056b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para o container de boas-vindas */
+.container.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px 0;
+    margin: 0 auto;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.container.content p {
+    margin: 0;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.links a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin: 0 5px; /* Espaçamento entre os links */
+}
+
+.links a:hover {
+    background-color: #0056b3;
+}
+
+header {
+    background-color: #007bff;
+    padding: 10px 0;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    color: #333;
+    font-size: 2.5rem;
+}
+
+h3 {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #0056b3;
+    font-size: 20px;
+}
+
+.flash-messages {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.flash-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ffc107;
+    border-radius: 4px;
+    color: #333;
+}
+
+.flash-message.flash-fadeout {
+    animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+p {
+    margin-top: 10px;
+    text-align: center;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* Estilos para o formulário */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Adicionado para centralizar o texto */
+}
+
+.form-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-container input[type="text"],
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-container input[type="submit"] {
+    width: auto;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* Estilos para a mensagem e lista de alunos */
+.message {
+    text-align: center;
+    margin: 20px 0;
+    color: #666;
+}
+
+.student-list h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.student-list ol {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.student-list li {
+    margin-bottom: 5px;
+}
+
+/* Estilos para a tabela de matérias e notas */
+.subject-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed; /* Define a largura das colunas de forma uniforme */
+}
+
+.subject-table th,
+.subject-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Estilos para os campos de nota */
+.subject-input {
+    width: 100px; /* Define um tamanho fixo para os campos de nota */
+    padding: 6px;
+    text-align: center;
+}
+
+/* Estilos para o botão de adicionar nota */
+.add-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%; /* O botão deve ocupar a largura da tabela */
+    display: block; /* Para que o botão ocupe toda a largura disponível */
+}
+
+/* Estilos para o container da página de adicionar notas */
+.add-notes-container {
+    width: 100%; /* O contêiner ocupa toda a largura da página */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex; /* Usando flexbox para centralizar verticalmente */
+    flex-direction: column; /* Itens em coluna */
+    align-items: center; /* Centralizar horizontalmente */
+    margin: 10px;
+}
+
+/* Estilos para a tabela de matérias e notas */
+.subject-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    max-width: 800px; /* Aumentando o tamanho máximo da tabela */
+    text-align: center;
+}
+
+/* Estilos para os campos de nota */
+.subject-input {
+    width: 60px; /* Reduzi o tamanho dos campos para evitar sobreposição */
+    padding: 6px;
+    text-align: center;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para a célula do aluno */
+.student-cell {
+    max-width: 150px; /* Defina um valor adequado para o máximo */
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona reticências (...) para indicar texto cortado */
+}
+
+/* Estilos para a célula do número de aluno */
+.student-number-cell {
+    width: 30px;
+    max-width: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.student-number-header {
+    width: 30px;
+    text-align: center;
+}
+
+.media-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin: 10px;
+}
+
+.media-table th, .media-table td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+
+.links_uni {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.links_uni a {
+    display: inline-block;
+    padding: 5px 5px;
+    background-color: #67b0ff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+.links_uni a:hover {
+    background-color: #0056b3;
+}
+
+.aprovado {
+    color: green;
+    font-weight: bold;
+}
+
+.reprovado {
+    color: red;
+    font-weight: bold;
+}
+
+.em-andamento {
+    color: #0056b3;
+    font-weight: bold;
+}
+
+#link-uni1 {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #00035b;
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+#link-uni1:hover {
+    background-color: #0056b3;
+}
+
+#link-uni2 {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #00035b;
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+#link-uni2:hover {
+    background-color: #0056b3;
+}
+
+#link-uni3 {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #00035b;
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+#link-uni3:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para o menu de navegação */
+.menu {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-around;
+    background-color: #67b0ff;
+    padding: 10px 0;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.menu a:hover {
+    background-color: #0056b3;
+}
+
+#motivational_phrase {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    height: 10vh; /* 100% da altura da viewport */
+    background-color: #67b0ff;
+}
+
+#boas-vindas p {
+    margin: 20px; /* Remove margens padrão para o parágrafo */
+}
+
+#motivational_phrase p {
+    font-style: italic;
+    color: blue;
+}
+
+.student-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.student-list th, .student-list td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.student-list th {
+    background-color: #f0f0f0;
+    text-align: left;
+}
+
+.student-list form {
+    display: inline-block;
+    margin-left: 10px;
+}

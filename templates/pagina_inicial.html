@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Diário de Classe - Página inicial</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Diário de Classe</h1>
+    </header>
+
+    <nav class="menu">
+        <a href="{{ url_for('pagina_inicial') }}">Início</a>
+        <a href="{{ url_for('cadastrar_aluno') }}">Cadastrar Aluno</a>
+        <a href="{{ url_for('adicionar_notas') }}">Notas do Aluno</a>
+    </nav>
+
+    <div id="boas-vindas">
+        <p>Boas-vindas, {{ email }}!</p>
+    </div>
+
+    <div id="motivational_phrase">
+        <p>{{ motivational_phrase }}</p>
+    </div>
+
+</body>
+</html>
