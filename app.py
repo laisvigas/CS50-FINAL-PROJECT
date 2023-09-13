@@ -20,7 +20,7 @@ def initialize_database():
     if not os.path.exists('diario_classe.db'):
         conn = sqlite3.connect('diario_classe.db')
         cursor = conn.cursor()
-
+        
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS usuarios (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +33,7 @@ def initialize_database():
             CREATE TABLE IF NOT EXISTS alunos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome_aluno TEXT NOT NULL,
-                genero TEXT NOT NULL
+                genero TEXT NOT NULL   
             )
         ''')
 
@@ -77,19 +77,6 @@ def initialize_database():
         ''')
 
 
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS medias (
-                id INTEGER PRIMARY KEY,
-                id_aluno INTEGER,
-                media_portugues REAL,
-                media_matematica REAL,
-                media_historia REAL,
-                media_geografia REAL,
-                media_ciencias REAL
-            )
-        ''')
-
-
         conn.commit()
         conn.close()
 
@@ -103,24 +90,12 @@ class DeleteForm(FlaskForm):
 def excluir_aluno(aluno_id):
     conn = sqlite3.connect('diario_classe.db')
     cursor = conn.cursor()
-
-    # Excluir notas do aluno
-    cursor.execute('DELETE FROM notas WHERE id_aluno = ?', (aluno_id,))
-    cursor.execute('DELETE FROM notas2 WHERE id_aluno = ?', (aluno_id,))
-    cursor.execute('DELETE FROM notas3 WHERE id_aluno = ?', (aluno_id,))
-
-    # Excluir médias do aluno
-    cursor.execute('DELETE FROM medias WHERE id_aluno = ?', (aluno_id,))
-
-    # Excluir o aluno
     cursor.execute('DELETE FROM alunos WHERE id = ?', (aluno_id,))
-
     conn.commit()
     conn.close()
-
+    
     flash("Exclusão de aluno realizada com sucesso.", "success")
     return redirect(url_for('cadastrar_aluno'))
-
 
 
 # Página de Login
@@ -164,7 +139,7 @@ def cadastro():
         if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
             flash("A senha deve conter pelo menos oito caracteres com pelo menos uma letra maiúscula, uma letra minúscula, um número e um símbolo.", "error")
             return redirect('/cadastro')
-
+        
         elif password != confirm_password:
             flash("As senhas não coincidem. Por favor, verifique e tente novamente.", "error")
             return redirect('/cadastro')
@@ -182,7 +157,7 @@ def cadastro():
             # Define a mensagem de sucesso e redireciona para a página de login
             flash("Cadastro realizado com sucesso! Realize o login abaixo.", "success")
             return redirect(url_for('login'))
-
+    
     # Caso seja um método GET ou houver algum erro, continua exibindo a página de cadastro
     return render_template('cadastro.html')
 
@@ -222,11 +197,10 @@ def cadastrar_aluno():
             # Obtém o ID do aluno recém-cadastrado
             aluno_id = cursor.lastrowid
 
-            # Adiciona notas zero para o aluno em todas as unidades (tabelas de notas), e tabela de medias
+            # Adiciona notas zero para o aluno em todas as unidades (tabelas de notas)
             insert_zero_notas(conn, 'notas', aluno_id)
             insert_zero_notas(conn, 'notas2', aluno_id)
             insert_zero_notas(conn, 'notas3', aluno_id)
-
 
             conn.commit()
             conn.close()
@@ -288,7 +262,7 @@ def adicionar_notas():
                 notas_aluno['historia'] = float(historia) if historia else 0.0
                 notas_aluno['geografia'] = float(geografia) if geografia else 0.0
                 notas_aluno['ciencias'] = float(ciencias) if ciencias else 0.0
-
+                
                 notas_alunos[aluno_id] = notas_aluno
 
             for aluno_id, notas_aluno in notas_alunos.items():
@@ -297,7 +271,7 @@ def adicionar_notas():
 
                 if existing_aluno:
                     con.execute("""
-                        UPDATE notas SET
+                        UPDATE notas SET 
                         nota_portugues = ?, nota_matematica = ?, nota_historia = ?, nota_geografia = ?, nota_ciencias = ?
                         WHERE id_aluno = ?
                     """, (notas_aluno['portugues'], notas_aluno['matematica'], notas_aluno['historia'], notas_aluno['geografia'], notas_aluno['ciencias'], aluno_id))
@@ -330,7 +304,7 @@ def insert_or_update_notas(con, tabela, aluno_id, notas_aluno):
 
     if existing_aluno:
         con.execute(f'''
-            UPDATE {tabela} SET
+            UPDATE {tabela} SET 
             nota_portugues = ?, nota_matematica = ?, nota_historia = ?, nota_geografia = ?, nota_ciencias = ?
             WHERE id_aluno = ?
         ''', (notas_aluno['portugues'], notas_aluno['matematica'], notas_aluno['historia'], notas_aluno['geografia'], notas_aluno['ciencias'], aluno_id))
@@ -381,7 +355,7 @@ def adicionar_notas_uni2():
                 notas_aluno['historia'] = float(historia) if historia else 0.0
                 notas_aluno['geografia'] = float(geografia) if geografia else 0.0
                 notas_aluno['ciencias'] = float(ciencias) if ciencias else 0.0
-
+                
                 insert_or_update_notas(con, 'notas2', aluno_id, notas_aluno)
 
         return redirect(url_for('adicionar_notas_uni2'))
@@ -437,7 +411,7 @@ def adicionar_notas_uni3():
                 notas_aluno['historia'] = float(historia) if historia else 0.0
                 notas_aluno['geografia'] = float(geografia) if geografia else 0.0
                 notas_aluno['ciencias'] = float(ciencias) if ciencias else 0.0
-
+                
                 insert_or_update_notas(con, 'notas3', aluno_id, notas_aluno)
 
         return redirect(url_for('adicionar_notas_uni3'))
@@ -455,118 +429,26 @@ def adicionar_notas_uni3():
     return render_template('adicionar_notas_uni3.html', alunos=alunos_sorted, notas3_alunos=notas3_alunos_sorted)
 
 
-
 @app.route('/media', methods=['GET', 'POST'])
 def media():
-    def calculate_situations(media_rows):
-        rows_with_situations = []
+    with sqlite3.connect('diario_classe.db') as con:
+        cur = con.execute('''
+            SELECT alunos.id, alunos.nome_aluno,
+                   ROUND(COALESCE((notas.nota_portugues + notas2.nota_portugues + notas3.nota_portugues) / 3, 0), 1) AS media_portugues,
+                   ROUND(COALESCE((notas.nota_matematica + notas2.nota_matematica + notas3.nota_matematica) / 3, 0), 1) AS media_matematica,
+                   ROUND(COALESCE((notas.nota_historia + notas2.nota_historia + notas3.nota_historia) / 3, 0), 1) AS media_historia,
+                   ROUND(COALESCE((notas.nota_geografia + notas2.nota_geografia + notas3.nota_geografia) / 3, 0), 1) AS media_geografia,
+                   ROUND(COALESCE((notas.nota_ciencias + notas2.nota_ciencias + notas3.nota_ciencias) / 3, 0), 1) AS media_ciencias
+            FROM alunos
+            LEFT JOIN notas ON alunos.id = notas.id_aluno
+            LEFT JOIN notas2 ON alunos.id = notas2.id_aluno
+            LEFT JOIN notas3 ON alunos.id = notas3.id_aluno
+        ''')
+        media_rows = cur.fetchall()
 
-        for row in media_rows:
-            notas_aluno = [float(nota) for nota in row[2:]]
+    media_rows_sorted = sorted(media_rows, key=lambda aluno: aluno[1])
 
-            if any(nota == 0.0 for nota in notas_aluno):
-                situacao = "PROCESSANDO NOTA FINAL"
-            elif all(nota >= 5 for nota in notas_aluno):
-                situacao = "APROVADO"
-            else:
-                situacao = "REPROVADO"
-
-
-            row += (situacao,)
-            rows_with_situations.append(row)
-
-        return rows_with_situations
-
-    conn = sqlite3.connect('diario_classe.db')
-    cursor = conn.cursor()
-
-    cursor.execute('''
-        SELECT alunos.id, alunos.nome_aluno,
-            notas.nota_portugues AS nota_portugues1, notas.nota_matematica AS nota_matematica1,
-            notas.nota_historia AS nota_historia1, notas.nota_geografia AS nota_geografia1,
-            notas.nota_ciencias AS nota_ciencias1,
-            notas2.nota_portugues AS nota_portugues2, notas2.nota_matematica AS nota_matematica2,
-            notas2.nota_historia AS nota_historia2, notas2.nota_geografia AS nota_geografia2,
-            notas2.nota_ciencias AS nota_ciencias2,
-            notas3.nota_portugues AS nota_portugues3, notas3.nota_matematica AS nota_matematica3,
-            notas3.nota_historia AS nota_historia3, notas3.nota_geografia AS nota_geografia3,
-            notas3.nota_ciencias AS nota_ciencias3
-        FROM alunos
-        LEFT JOIN notas ON alunos.id = notas.id_aluno
-        LEFT JOIN notas2 ON alunos.id = notas2.id_aluno
-        LEFT JOIN notas3 ON alunos.id = notas3.id_aluno
-    ''')
-
-
-    media_rows = cursor.fetchall()
-    print("MEDIA ROWS", media_rows)
-
-    rows_with_situations = calculate_situations(media_rows)
-    print(rows_with_situations)
-    sums = []
-
-    # Calcula as somas individuais e adiciona à lista sums
-    for row in rows_with_situations:
-        zero = 0
-        zero1 = 0
-        media_portugues = (row[2] + row[7] + row[12]) / 3
-        media_matematica = (row[3] + row[8] + row[13]) / 3
-        media_historia = (row[4] + row[9] + row[14]) / 3
-        media_geografia = (row[5] + row[10] + row[15]) / 3
-        media_ciencias = (row[6] + row[11] + row[16]) / 3
-
-        sums.append([zero, zero1, media_portugues, media_matematica, media_historia, media_geografia, media_ciencias])
-
-
-
-    print("SUMS", sums)
-    print("ROWS WITH SITUATIONS:", rows_with_situations)
-    print("CALCULATE SITUATIONS", calculate_situations(sums))
-
-
-    # Último valor de rows_with_situations
-    last_value_rows = rows_with_situations[-1][-1]
-    print("LAST VALUE ROWS:", last_value_rows)
-
-    # Último valor de calculate_situations(sums)
-    last_sum = sums[-1]
-    last_value_calculations = last_sum[-1]
-    print("LAST VALUE CALCULATIONS:", last_value_calculations)
-
-    results = []
-
-    length_last_value_rows = len(last_value_rows.split()[-1])
-    print("LEN 1", length_last_value_rows)
-
-    length_last_value_calculations = len(last_value_calculations.split()[-1])
-    print("LEN 2", length_last_value_calculations)
-
-    if length_last_value_rows == 5 and length_last_value_calculations == 9 or length_last_value_rows == 5 and length_last_value_calculations == 8:
-        results.append("PROCESSANDO NOTA FINAL")
-    elif length_last_value_rows == 8 and length_last_value_calculations == 8 or length_last_value_rows == 9 and length_last_value_calculations == 8:
-        results.append("APROVADO")
-    elif length_last_value_rows == 9 and length_last_value_calculations == 9:
-        results.append("REPROVADO")
-
-    print("RESULTS:", results)
-
-    def reorganize_data(media_rows, sums, results):
-        organized_data = []
-
-        max_length = max(len(media_rows), len(sums), len(results))
-
-        for i in range(max_length):
-            row = media_rows[i] if i < len(media_rows) else [None] * len(media_rows[0])
-            sums_row = sums[i] if i < len(sums) else [None] * len(sums[0])
-            result = results[i] if i < len(results) else None
-
-            organized_row = [row[1]] + sums_row[2:] + [result]
-            organized_data.append(organized_row)
-
-        return organized_data
-
-    return render_template('media.html', organized_data=reorganize_data(media_rows, sums, results))
-
+    return render_template('media.html', media_rows=media_rows_sorted)
 
 def get_random_motivational_phrase():
     return random.choice(motivational_phrases)
